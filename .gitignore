@@ -1,0 +1,6 @@
+*
+
+# Do not ignore
+!.gitignore
+!init.vim
+
