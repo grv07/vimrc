@@ -10,24 +10,39 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'gruvbox-community/gruvbox'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
 " Search into subfolders. 
 set path+=**
-nnoremap <C-p> :GFiles<CR>
+
+" use ripgrep to search for files
+let $FZF_DEFAULT_COMMAND = 'rg -l ""'
+
+" fzf hotkeys.
+map <C-p> :Files<CR>
+map <C-b> :Buffers<CR>
+map <Leader>/ :execute 'Rg ' . input('Rg/')<CR>
+map <Leader>l :BLines<CR>
+map <Leader>gf :GF?<CR>
 
 " Open hotkeys
 nmap <leader>; :Buffers<CR>
 
 colorscheme gruvbox
 
+" Enable CursorLine
+set cursorline
+
 " Quick-save
 nmap <leader>w :w<CR>
 
-" Completion
-" Better display for messages
-" set cmdheight=2
+" Yank remaining line.
+nnoremap Y yg$
+
+" Relpace the visual text with last yanked
+xnoremap p "_dP
 
 " =============================================================================
 " # Editor settings
@@ -42,6 +57,16 @@ set hidden
 set nowrap
 set nojoinspaces
 
+" Netwr setup
+let g:netrw_banner=0
+" let g:netrw_browse_split=2
+let g:netrw_liststyle=3
+"let g:netrw_winsize=20
+
+" ctags open in split/window settings
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
 " Sane splits
 set splitright
 set splitbelow
@@ -52,7 +77,7 @@ set undofile
 
 " Decent wildmenu
 set wildmenu
-"set wildmode=list:longest
+set wildmode=list:longest
 set wildignore=**/target/**,.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor
 
 " Use wide tabs
@@ -125,9 +150,9 @@ vnoremap <C-h> :nohlsearch<cr>
 nnoremap <C-h> :nohlsearch<cr>
 
 " Suspend with Ctrl+f
-inoremap <C-f> :sus<cr>
-vnoremap <C-f> :sus<cr>
-nnoremap <C-f> :sus<cr>
+"inoremap <C-f> :sus<cr>
+"vnoremap <C-f> :sus<cr>
+"nnoremap <C-f> :sus<cr>
 
 " Open new file adjacent to current file
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
