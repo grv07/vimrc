@@ -1,6 +1,4 @@
-*
+
 
 # Do not ignore
 !.gitignore
-!init.vim
-!.tmux.conf
